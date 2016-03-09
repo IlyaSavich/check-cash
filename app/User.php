@@ -29,7 +29,7 @@ class User extends Authenticatable
      * Accounts that user can have
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function accounts()
+    public function account()
     {
         return $this->hasMany('App\Models\accounts\Account');
     }

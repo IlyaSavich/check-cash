@@ -98,6 +98,5 @@
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('js/demo.js') }}"></script>
 <script src="{{ asset('js/Chart.min.js') }}"></script>
-
 </body>
 </html>

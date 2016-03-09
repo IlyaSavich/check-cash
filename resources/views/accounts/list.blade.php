@@ -2,17 +2,22 @@
 
 @section('content')
     @foreach($accounts as $account)
-        <a href="{{ route('accounts.view', $account->id) }}">
-            <div class="col-md-3 col-sm-6 col-xs-12">
-                <div class="info-box">
-                    <span class="info-box-icon bg-green"><i class="fa fa-flag-o"></i></span>
+        {{--<a href="{{ route('accounts.view', $account->id) }}">--}}
+        <div class="col-lg-3 col-xs-6">
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3>{{ $account->balance }} $</h3>
 
-                    <div class="info-box-content">
-                        <span class="info-box-text">{{ $account->name }}</span>
-                        <span class="info-box-number"></span>
-                    </div>
+                    <p>{{ $account->name }}</p>
                 </div>
+                <div class="icon">
+                    <i class="ion ion-briefcase"></i>
+                </div>
+                <a href="{{ route('accounts.view', $account->id) }}" class="small-box-footer">
+                    Подробнее <i class="fa fa-arrow-circle-right"></i>
+                </a>
             </div>
-        </a>
+        </div>
+        {{--</a>--}}
     @endforeach
 @stop

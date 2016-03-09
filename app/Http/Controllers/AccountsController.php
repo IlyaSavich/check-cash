@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\AccountHelper;
+use App\Helpers\AccountsHistoryHelper;
 use App\Http\Requests;
 use App\Http\Requests\CreateAccountRequest;
 use App\Models\accounts\Account;
-use App\Models\accounts\AccountsHistory;
 
 class AccountsController extends Controller
 {
@@ -20,13 +21,13 @@ class AccountsController extends Controller
 
     public function index()
     {
-        $accounts = Account::all();
+        $accounts = AccountHelper::mergeAccountWithMoney(Account::all());
 
         return view('accounts.list', compact('accounts'));
     }
 
     /**
-     * Rendering form for creating new account
+     * View form for creating new account
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create()
@@ -38,7 +39,7 @@ class AccountsController extends Controller
      * Save a new account
      * @param CreateAccountRequest $request
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(CreateAccountRequest $request)
     {
@@ -48,31 +49,42 @@ class AccountsController extends Controller
     }
 
     /**
-     * View single account by id
-     * @param $id
+     * View single account
+     * @param $id int Account id
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function view($id)
     {
-        $transactions = AccountsHistory::all()->where('account_id', $id);
-        if (empty($transactions->getDictionary())) {
-            $money = 0;
-        } else {
-            $money = 0;
-            foreach ($transactions as $item) {
-                $money += $item->money;
-            }
-        }
-
         $account = Account::findOrFail($id);
+        $account->balance = AccountsHistoryHelper::getAccountBalance($id);
 
-        return view('accounts.view', compact('account', 'money'));
+        return view('accounts.view', compact('account'));
     }
 
-    public function transaction($id)
+    /**
+     * View form for editing the account
+     * @param $id int Account id
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function edit($id)
     {
         $account = Account::findOrFail($id);
-        return view('accounts.transaction', compact('account'));
+
+        return view('accounts.edit', compact('account'));
+    }
+
+    /**
+     * Update the account and view it
+     * @param CreateAccountRequest $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(CreateAccountRequest $request)
+    {
+        $account = Account::create(array_merge($request->all(), ['user_id' => \Auth::user()->id]));
+
+        return redirect()->route('accounts.view', ['id' => $account->id]);
     }
 }

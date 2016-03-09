@@ -32,4 +32,13 @@ class Account extends \Eloquent
     {
         return $this->belongsTo('App\User');
     }
+
+    /**
+     * Transactions that carried out over the account
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function transaction()
+    {
+        return $this->hasMany('App\Models\accounts\AccountsHistory');
+    }
 }

@@ -4,7 +4,7 @@ namespace App\Models\accounts;
 
 use Illuminate\Database\Eloquent\Model;
 
-class AccountsHistory extends Model
+class AccountsHistory extends \Eloquent
 {
     protected $table = 'accounts_history';
     /**
@@ -17,4 +17,26 @@ class AccountsHistory extends Model
         'description',
         'currency_id',
     ];
+
+    /**
+     * Transaction belongs to account
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function account()
+    {
+        return $this->belongsTo('App\Models\accounts\Account');
+    }
+
+    /**
+     * Transaction currency
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function currency()
+    {
+        return $this->belongsTo('App\Models\Currency');
+    }
+
+    public function setUpdatedAt($value)
+    {
+    }
 }

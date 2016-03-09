@@ -5,26 +5,22 @@
     <div class="col-md-8">
         <div class="box box-success">
             <div class="box-header with-border">
-                <h3 class="box-title">Создать новый счет</h3>
+                <h3 class="box-title">Новый счет</h3>
             </div>
-            {!! Form::open(['route' => 'accounts.store', 'class' => 'form-horizontal']) !!}
+            {!! Form::open(['route' => 'accounts.store']) !!}
             <div class="box-body">
-                <div class="form-group">
-                    {!! Form::label('name', 'Имя счета: ', ['class' => 'col-sm-3 control-label']) !!}
-                    <div class="col-sm-9">
-                        {!! Form::text('name', '', ['class' => 'form-control', 'placeholder' => 'Имя']) !!}
-                    </div>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-bookmark-o"></i></span>
+                    {!! Form::text('name', '',
+                    ['class' => 'form-control', 'placeholder' => 'Название']) !!}
                 </div>
                 <div class="form-group">
-                    {!! Form::label('description', 'Описание: ', ['class' => 'col-sm-3 control-label']) !!}
-                    <div class="col-sm-9">
-                        {!! Form::textarea('description', '', ['class' => 'form-control',
-                         'rows' => '4', 'placeholder' => 'Описание']) !!}
-                    </div>
+                    {!! Form::textarea('description', '', ['class' => 'form-control',
+                    'rows' => '4', 'placeholder' => 'Описание ...']) !!}
                 </div>
             </div>
             <div class="box-footer">
-                <a href="{{ asset('list') }}" class="btn btn-default">Отменить</a>
+                <a href="{{ route('accounts') }}" class="btn btn-default">Отменить</a>
                 {!! Form::submit('Создать', ['class' => 'btn btn-success pull-right']) !!}
             </div>
             {!! Form::close() !!}
