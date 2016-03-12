@@ -3,6 +3,8 @@
 namespace App\Helpers;
 
 
+use App\Models\accounts\AccountsHistory;
+
 class AccountHelper
 {
     /**
@@ -14,7 +16,7 @@ class AccountHelper
     public static function mergeAccountWithMoney($accounts)
     {
         foreach($accounts as $account) {
-            $account->balance = AccountsHistoryHelper::getAccountBalance($account->id);
+            $account->balance = AccountsHistory::where('account_id', $account->id)->sum('money');
         }
 
         return $accounts;

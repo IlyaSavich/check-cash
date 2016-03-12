@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Helpers\AccountHelper;
 use App\Helpers\AccountsHistoryHelper;
+use App\Helpers\DateHelper;
 use App\Http\Requests;
 use App\Http\Requests\CreateAccountRequest;
 use App\Models\accounts\Account;
+use App\Models\accounts\AccountsHistory;
 
 class AccountsController extends Controller
 {
@@ -57,9 +59,12 @@ class AccountsController extends Controller
     public function view($id)
     {
         $account = Account::findOrFail($id);
-        $account->balance = AccountsHistoryHelper::getAccountBalance($id);
+        $account->balance = AccountsHistory::where('account_id', $id)->sum('money');
 
-        return view('accounts.view', compact('account'));
+        $chartData = AccountsHistoryHelper::getIncomeForInterval($id);
+        $chartData = json_encode($chartData);
+
+        return view('accounts.view', compact('account', 'chartData'));
     }
 
     /**

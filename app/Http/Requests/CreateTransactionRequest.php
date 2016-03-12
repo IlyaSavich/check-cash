@@ -24,7 +24,7 @@ class CreateTransactionRequest extends Request
     public function rules()
     {
         return [
-            'money' => 'required|numeric',
+            'money' => 'required|numeric|min:0',
             'currency_id' => 'required',
             'description' => 'string',
         ];
