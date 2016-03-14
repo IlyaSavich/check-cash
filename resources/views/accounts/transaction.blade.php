@@ -3,6 +3,8 @@
 @section('content')
     <div class="col-md-2"></div>
     <div class="col-md-8">
+        @include('errors.account')
+        <div class="row">
         <div class="box box-success">
             <div class="box-header with-border">
                 <h3 class="box-title">Новая транзакция</h3>
@@ -35,6 +37,7 @@
                 {!! Form::submit('Отправить', ['class' => 'btn btn-success pull-right']) !!}
             </div>
             {!! Form::close() !!}
+        </div>
         </div>
     </div>
 @stop

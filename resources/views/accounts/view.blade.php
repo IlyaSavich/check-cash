@@ -33,6 +33,17 @@
                         <canvas id="income-graph"></canvas>
                     </div>
                 </div>
+                <div class="box-footer">
+                    <div class="form-group">
+                        <label>Date range:</label>
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right" id="reservation">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -48,6 +59,17 @@
                 <div class="box-body">
                     <div class="chart">
                         <canvas id="incexp-graph"></canvas>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <div class="form-group">
+                        <label>Date range:</label>
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right" id="reservation">
+                        </div>
                     </div>
                 </div>
             </div>

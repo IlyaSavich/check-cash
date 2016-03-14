@@ -82,14 +82,17 @@ class AccountsController extends Controller
 
     /**
      * Update the account and view it
+     *
+     * @param $id int
      * @param CreateAccountRequest $request
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(CreateAccountRequest $request)
+    public function update($id, CreateAccountRequest $request)
     {
-        $account = Account::create(array_merge($request->all(), ['user_id' => \Auth::user()->id]));
+        $account = Account::findOrFail($id);
+        $account->update(array_merge($request->all(), ['user_id' => \Auth::user()->id]));
 
-        return redirect()->route('accounts.view', ['id' => $account->id]);
+        return redirect()->route('accounts.view', ['id' => $id]);
     }
 }

@@ -42,16 +42,19 @@ class AccountsHistoryHelper
         $transactions = AccountsHistory::select(['money', 'created_at'])->where('account_id', $accountId)
             ->whereBetween('created_at', [$interval['from'], $interval['to']])->orderBy('created_at')->get();
 
-        $result = $helper->orderTransactionsByDate($transactions, $helper->chooseSettingMethod($interval));
+        $income = $receiptExpense['receipt'] = $receiptExpense['expense'] = [];
+        if (!empty($transactions->getDictionary())) {
+            $result = $helper->orderTransactionsByDate($transactions, $helper->chooseSettingMethod($interval));
 
-        $income = $helper->calcIncomeOfEachDate($result);
-        $income = $helper->fillDatesWithoutTransactions($income, $interval);
+            $income = $helper->calcIncomeOfEachDate($result);
+            $income = $helper->fillDatesWithoutTransactions($income, $interval);
 
-        $receiptExpense = $helper->calcReceiptExpenseOfEachDate($result);
-        $receiptExpense = [
-            'receipt' => $helper->fillDatesWithoutTransactions($receiptExpense['receipt'], $interval),
-            'expense' => $helper->fillDatesWithoutTransactions($receiptExpense['expense'], $interval),
-        ];
+            $receiptExpense = $helper->calcReceiptExpenseOfEachDate($result);
+            $receiptExpense = [
+                'receipt' => $helper->fillDatesWithoutTransactions($receiptExpense['receipt'], $interval),
+                'expense' => $helper->fillDatesWithoutTransactions($receiptExpense['expense'], $interval),
+            ];
+        }
 
         return [
             'keys' => $helper->formattingDates(array_keys($income)),
@@ -205,5 +208,10 @@ class AccountsHistoryHelper
         ksort($source);
 
         return $source;
+    }
+
+    public function formingReceiptExpenseArray()
+    {
+
     }
 }
