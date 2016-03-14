@@ -61,7 +61,7 @@ class AccountsController extends Controller
         $account = Account::findOrFail($id);
         $account->balance = AccountsHistory::where('account_id', $id)->sum('money');
 
-        $chartData = AccountsHistoryHelper::getIncomeForInterval($id);
+        $chartData = AccountsHistoryHelper::getGraphData($id);
         $chartData = json_encode($chartData);
 
         return view('accounts.view', compact('account', 'chartData'));

@@ -18,8 +18,8 @@
     </div>
 
     <div class="row">
+        <div id="income-graph-data">{{ $chartData }}</div>
         <div class="col-md-6">
-            <!-- AREA CHART -->
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h3 class="box-title">Доход</h3>
@@ -30,8 +30,24 @@
                 </div>
                 <div class="box-body">
                     <div class="chart">
-                        <canvas id="areaChart" style="height:250px"></canvas>
-                        <div id="areaChartData">{{ $chartData }}</div>
+                        <canvas id="income-graph"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Приход и Расход</h3>
+
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="chart">
+                        <canvas id="incexp-graph"></canvas>
                     </div>
                 </div>
             </div>

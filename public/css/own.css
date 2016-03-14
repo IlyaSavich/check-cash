@@ -1,0 +1,8 @@
+canvas {
+    height:300px;
+    width: auto;
+}
+
+#income-graph-data {
+    display: none;
+}

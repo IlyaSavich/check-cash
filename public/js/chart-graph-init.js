@@ -1,11 +1,7 @@
 $(function () {
-    // Get context with jQuery - using jQuery's .get() method.
-    var areaChartCanvas = $("#areaChart").get(0).getContext("2d");
-    // This will get the first returned node in the jQuery collection.
+    var areaChartCanvas = $("#income-graph").get(0).getContext("2d");
     var areaChart = new Chart(areaChartCanvas);
-    var arrayData = JSON.parse($("#areaChartData").html());
-
-    console.log(arrayData);
+    var arrayData = JSON.parse($("#income-graph-data").html());
     var areaChartData = {
         labels: arrayData["keys"],
         datasets: [
@@ -17,7 +13,7 @@ $(function () {
                 pointStrokeColor: "rgba(60,141,188,1)",
                 pointHighlightFill: "#fff",
                 pointHighlightStroke: "rgba(60,141,188,1)",
-                data: arrayData["values"]
+                data: arrayData["income"]
             }
         ]
     };
@@ -60,7 +56,35 @@ $(function () {
         //Boolean - whether to make the chart responsive to window resizing
         responsive: true
     };
+    areaChart.Line(areaChartData, areaChartOptions);
 
-    //Create the line chart
+    areaChartCanvas = $("#incexp-graph").get(0).getContext("2d");
+    areaChartOptions.datasetFill = false;
+    areaChart = new Chart(areaChartCanvas);
+    areaChartData = {
+        labels: arrayData["keys"],
+        datasets: [
+            {
+                label: "Расход",
+                fillColor: "rgba(210, 214, 222, 1)",
+                strokeColor: "rgba(210, 214, 222, 1)",
+                pointColor: "rgba(210, 214, 222, 1)",
+                pointStrokeColor: "#c1c7d1",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(220,220,220,1)",
+                data: arrayData["expense"]
+            },
+            {
+                label: "Приход",
+                fillColor: "rgba(60,141,188,0.9)",
+                strokeColor: "rgba(60,141,188,0.8)",
+                pointColor: "#3b8bba",
+                pointStrokeColor: "rgba(60,141,188,1)",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(60,141,188,1)",
+                data: arrayData["receipt"]
+            }
+        ]
+    };
     areaChart.Line(areaChartData, areaChartOptions);
 });
