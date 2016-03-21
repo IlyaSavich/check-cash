@@ -2,7 +2,6 @@
 
 @section('content')
     @foreach($accounts as $account)
-        {{--<a href="{{ route('accounts.view', $account->id) }}">--}}
         <div class="col-lg-3 col-xs-6">
             <div class="small-box bg-green">
                 <div class="inner">
@@ -18,6 +17,5 @@
                 </a>
             </div>
         </div>
-        {{--</a>--}}
     @endforeach
 @stop

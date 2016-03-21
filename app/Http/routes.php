@@ -29,14 +29,14 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('accounts/', ['uses' => 'AccountsController@index', 'as' => 'accounts']);
     Route::get('accounts/create', ['uses' => 'AccountsController@create', 'as' => 'accounts.create']);
     Route::post('accounts/create', ['uses' => 'AccountsController@store', 'as' => 'accounts.store']);
-    Route::get('accounts/view/{id}', ['uses' => 'AccountsController@view', 'as' => 'accounts.view']);
-    Route::get('accounts/view/{id}/edit', ['uses' => 'AccountsController@edit', 'as' => 'accounts.edit']);
-    Route::post('accounts/view/{id}/edit', ['uses' => 'AccountsController@update', 'as' => 'accounts.update']);
-    Route::get('accounts/view/{id}/transaction', [
+    Route::get('accounts/{id}', ['uses' => 'AccountsController@view', 'as' => 'accounts.view']);
+    Route::get('accounts/{id}/edit', ['uses' => 'AccountsController@edit', 'as' => 'accounts.edit']);
+    Route::post('accounts/{id}/edit', ['uses' => 'AccountsController@update', 'as' => 'accounts.update']);
+    Route::get('accounts/{id}/transaction', [
         'uses' => 'TransactionController@create',
         'as' => 'transaction.create'
     ]);
-    Route::post('accounts/view/{id}/transaction', [
+    Route::post('accounts/{id}/transaction', [
         'uses' => 'TransactionController@store',
         'as' => 'transaction.store',
     ]);

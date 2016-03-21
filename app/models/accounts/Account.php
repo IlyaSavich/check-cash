@@ -11,6 +11,7 @@ namespace App\Models\accounts;
  * @property string $created_at
  * @property string $updated_at
  * @property int $user_id
+ * @property int $balance
  */
 class Account extends \Eloquent
 {

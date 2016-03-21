@@ -2,8 +2,13 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
+/**
+ * Class Currency
+ * @package App
+ *
+ * @property int $id
+ * @property string $name
+ */
 class Currency extends \Eloquent
 {
     protected $table = 'currency';

@@ -4,6 +4,18 @@ namespace App\Models\accounts;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class AccountsHistory
+ * @package App\Models\accounts
+ *
+ * @property int $id
+ * @property double $money
+ * @property string $created_at
+ * @property string $description
+ * @property int $currency_id
+ * @property string $currency
+ * @property string $account_id
+ */
 class AccountsHistory extends \Eloquent
 {
     protected $table = 'accounts_history';

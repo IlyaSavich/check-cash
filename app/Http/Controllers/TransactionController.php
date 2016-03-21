@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\AccountsHistoryHelper;
+use App\Helpers\AccountContainer;
+use App\Helpers\AccountsHistoryContainer;
 use App\Http\Requests\CreateTransactionRequest;
-use App\Models\accounts\Account;
-use App\Models\accounts\AccountsHistory;
-use Illuminate\Http\Request;
-
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -30,7 +27,7 @@ class TransactionController extends Controller
      */
     public function create($id)
     {
-        $account = Account::findOrFail($id);
+        $account = AccountContainer::getAccount($id);
 
         return view('accounts.transaction', compact('account'));
     }
@@ -43,8 +40,8 @@ class TransactionController extends Controller
      */
     public function store(CreateTransactionRequest $request)
     {
-        AccountsHistory::create(AccountsHistoryHelper::checkTransactionType($request->all()));
+        $transaction = AccountsHistoryContainer::storeNewTransaction($request);
 
-        return redirect()->route('accounts.view', ['id' => $request->all()['account_id']]);
+        return redirect()->route('accounts.view', ['id' => $transaction->account_id]);
     }
 }

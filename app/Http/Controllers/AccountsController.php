@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\AccountHelper;
-use App\Helpers\AccountsHistoryHelper;
-use App\Helpers\DateHelper;
-use App\Http\Requests;
+use App\Helpers\AccountContainer;
+use App\Helpers\AccountsHistoryContainer;
+use App\Helpers\GraphHelper;
 use App\Http\Requests\CreateAccountRequest;
+use App\Http\Requests\SetIntervalRequest;
 use App\Models\accounts\Account;
-use App\Models\accounts\AccountsHistory;
+use Illuminate\Http\Request;
 
 class AccountsController extends Controller
 {
@@ -21,9 +21,13 @@ class AccountsController extends Controller
         $this->middleware('auth');
     }
 
+    /**
+     * View all accounts
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
-        $accounts = AccountHelper::mergeAccountWithMoney(Account::all());
+        $accounts = AccountContainer::getAllAccounts();
 
         return view('accounts.list', compact('accounts'));
     }
@@ -45,26 +49,28 @@ class AccountsController extends Controller
      */
     public function store(CreateAccountRequest $request)
     {
-        $account = Account::create(array_merge($request->all(), ['user_id' => \Auth::user()->id]));
+        $account = AccountContainer::storeNewAccount($request);
 
         return redirect()->route('accounts.view', ['id' => $account->id]);
     }
 
     /**
      * View single account
+     *
      * @param $id int Account id
+     * @param SetIntervalRequest|Request $request
+     * @param GraphHelper $graphHelper
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function view($id)
+    public function view($id, SetIntervalRequest $request, GraphHelper $graphHelper)
     {
-        $account = Account::findOrFail($id);
-        $account->balance = AccountsHistory::where('account_id', $id)->sum('money');
+        /** @var $account Account */
+        $account = AccountContainer::getAccountWithBalance($id);
+        $chartData = $graphHelper->getGraphData($id, $request);
+        $history = AccountsHistoryContainer::getHistory($id);
 
-        $chartData = AccountsHistoryHelper::getGraphData($id);
-        $chartData = json_encode($chartData);
-
-        return view('accounts.view', compact('account', 'chartData'));
+        return view('accounts.view', compact('account', 'chartData', 'history'));
     }
 
     /**
@@ -75,7 +81,7 @@ class AccountsController extends Controller
      */
     public function edit($id)
     {
-        $account = Account::findOrFail($id);
+        $account = AccountContainer::getAccount($id);
 
         return view('accounts.edit', compact('account'));
     }
@@ -90,8 +96,7 @@ class AccountsController extends Controller
      */
     public function update($id, CreateAccountRequest $request)
     {
-        $account = Account::findOrFail($id);
-        $account->update(array_merge($request->all(), ['user_id' => \Auth::user()->id]));
+        AccountContainer::updateAccount($id, $request);
 
         return redirect()->route('accounts.view', ['id' => $id]);
     }
