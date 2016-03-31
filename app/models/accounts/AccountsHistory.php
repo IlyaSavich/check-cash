@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $currency_id
  * @property string $currency
  * @property string $account_id
+ * @property mixed $pagination
  */
 class AccountsHistory extends \Eloquent
 {

@@ -1,14 +1,16 @@
 <?php
 
-namespace App\Helpers;
+namespace App\Components;
 
-use App\Currency;
 use App\Http\Requests\CreateTransactionRequest;
 use App\Models\accounts\AccountsHistory;
 
 class AccountsHistoryContainer
 {
-    const HISTORY_LIMIT = 5;
+    /** @var int Amount of money between receipt and expense */
+    const ZERO = 0;
+    /** @var int Number o pages to paginate */
+    const PAGINATION_LIMIT = 5;
     /**
      * Check the type of transaction. If `expense` than change the money sign
      *
@@ -25,7 +27,7 @@ class AccountsHistoryContainer
     }
 
     /**
-     * Select all transaction for an account on the given range
+     * Select all transactions for the account on the given range
      *
      * @param $accountId
      * @param $interval
@@ -36,6 +38,34 @@ class AccountsHistoryContainer
     {
         return AccountsHistory::select(['money', 'created_at'])->where('account_id', $accountId)
             ->whereBetween('created_at', [$interval['from'], $interval['to']])->orderBy('created_at')->get();
+    }
+
+    /**
+     * Get all receipt for the account on the given range
+     * @param $accountId
+     * @param $interval
+     *
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public static function getReceiptByInterval($accountId, $interval)
+    {
+        return AccountsHistory::select(['money', 'created_at'])->where('account_id', $accountId)
+            ->where('money', '>', self::ZERO)->whereBetween('created_at',
+                [$interval['from'], $interval['to']])->orderBy('created_at')->get();
+    }
+
+    /**
+     * Get all expense for the account on the given range
+     * @param $accountId
+     * @param $interval
+     *
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public static function getExpenseByInterval($accountId, $interval)
+    {
+        return AccountsHistory::select(['money', 'created_at'])->where('account_id', $accountId)
+            ->where('money', '<', self::ZERO)->whereBetween('created_at',
+                [$interval['from'], $interval['to']])->orderBy('created_at')->get();
     }
 
     /**
@@ -70,7 +100,7 @@ class AccountsHistoryContainer
     public static function getLastFiveAccountTransactions($accountId)
     {
         return AccountsHistory::where('account_id', $accountId)->orderBy('created_at', 'desc')
-            ->limit(self::HISTORY_LIMIT)->get();
+            ->paginate(self::PAGINATION_LIMIT);
     }
 
     /**
@@ -87,5 +117,24 @@ class AccountsHistoryContainer
         }
 
         return $transactions;
+    }
+
+    /**
+     * Get income for current month from begin to current datetime
+     * @param $accountId
+     *
+     * @return int
+     */
+    public static function getIncomeForCurrentMonth($accountId)
+    {
+        $transactions = AccountsHistoryContainer::getTransactionsByInterval($accountId,
+            DateFormatter::getCurrentMonthInterval());
+
+        $money = 0;
+        foreach ($transactions as $transaction) {
+            $money += $transaction->money;
+        }
+
+        return $money;
     }
 }

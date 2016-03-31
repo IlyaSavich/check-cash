@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="{{ asset('css/_all-skins.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/own.css') }}">
     <!-- iCheck -->
-    <link rel="stylesheet" href="plugins/iCheck/flat/blue.css">
+    <link rel="stylesheet" href="{{ asset('css/blue.css') }}">
     <!-- Morris chart -->
     <link rel="stylesheet" href="plugins/morris/morris.css">
     <!-- jvectormap -->
@@ -28,7 +28,7 @@
     <!-- Daterange picker -->
     <link rel="stylesheet" href="{{ asset('css/daterangepicker-bs3.css') }}">
     <!-- bootstrap wysihtml5 - text editor -->
-    <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+{{--    <link rel="stylesheet" href="{{ asset('css/bootstrap3-wysihtml5.min.css') }}">--}}
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -45,13 +45,6 @@
     @include('layouts.partials.main-menu')
 
     <div class="content-wrapper">
-        <section class="content-header">
-            <h1>
-                Dashboard
-                <small>Control panel</small>
-            </h1>
-        </section>
-
         <section class="content">
             @yield('content')
         </section>
@@ -96,6 +89,6 @@
 <script src="{{ asset('js/app.min.js') }}"></script>
 <script src="{{ asset('js/Chart.min.js') }}"></script>
 <script src="{{ asset('js/chart-graph-init.js') }}"></script>
-<script src="{{ asset('js/daterange-init.js') }}"></script>
+<script src="{{ asset('js/init_daterange_icheck.js') }}"></script>
 </body>
 </html>

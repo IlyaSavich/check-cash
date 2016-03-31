@@ -32,6 +32,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('accounts/{id}', ['uses' => 'AccountsController@view', 'as' => 'accounts.view']);
     Route::get('accounts/{id}/edit', ['uses' => 'AccountsController@edit', 'as' => 'accounts.edit']);
     Route::post('accounts/{id}/edit', ['uses' => 'AccountsController@update', 'as' => 'accounts.update']);
+    Route::get('accounts/{id}/delete', ['uses' => 'AccountsController@delete', 'as' => 'accounts.delete']);
     Route::get('accounts/{id}/transaction', [
         'uses' => 'TransactionController@create',
         'as' => 'transaction.create'
@@ -40,8 +41,5 @@ Route::group(['middleware' => ['web']], function () {
         'uses' => 'TransactionController@store',
         'as' => 'transaction.store',
     ]);
-});
-
-Route::group(['middleware' => 'web'], function () {
     Route::auth();
 });

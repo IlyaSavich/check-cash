@@ -20,6 +20,17 @@ canvas {
     background: transparent !important;
 }
 
-.input-group {
+.input-field {
     padding-bottom: 10px;
+}
+.pagin ul.pagination{
+    margin: 0;
+}
+
+.graph-income-title {
+    color: #FFFFFF;
+}
+
+.box-header > .fa {
+    color: #FFFFFF;
 }

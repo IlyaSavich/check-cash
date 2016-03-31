@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Helpers;
+namespace App\Components;
 
 use App\Http\Requests\CreateAccountRequest;
 use App\Models\accounts\Account;
@@ -38,11 +38,12 @@ class AccountContainer
      *
      * @return Account
      */
-    public static function getAccountWithBalance($accountId)
+    public static function getFullInfoAboutAccount($accountId)
     {
         /* @var $account Account */
         $account = Account::findOrFail($accountId);
         $account->balance = AccountsHistoryContainer::getAccountBalance($accountId);
+        $account->currentMonthIncome = AccountsHistoryContainer::getIncomeForCurrentMonth($accountId);
 
         return $account;
     }
@@ -71,5 +72,16 @@ class AccountContainer
         $account->update(array_merge($request->all(), ['user_id' => \Auth::user()->id]));
 
         return $account;
+    }
+
+    /**
+     * Delete account
+     * @param $accountId
+     *
+     * @return int
+     */
+    public static function deleteAccount($accountId)
+    {
+        return Account::destroy($accountId);
     }
 }

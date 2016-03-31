@@ -12,6 +12,7 @@ namespace App\Models\accounts;
  * @property string $updated_at
  * @property int $user_id
  * @property int $balance
+ * @property int $currentMonthIncome
  */
 class Account extends \Eloquent
 {

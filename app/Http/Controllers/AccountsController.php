@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\AccountContainer;
-use App\Helpers\AccountsHistoryContainer;
-use App\Helpers\GraphHelper;
+use App\Components\AccountContainer;
+use App\Components\AccountsHistoryContainer;
+use App\Components\GraphDirector;
 use App\Http\Requests\CreateAccountRequest;
 use App\Http\Requests\SetIntervalRequest;
 use App\Models\accounts\Account;
@@ -59,14 +59,14 @@ class AccountsController extends Controller
      *
      * @param $id int Account id
      * @param SetIntervalRequest|Request $request
-     * @param GraphHelper $graphHelper
+     * @param GraphDirector $graphHelper
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function view($id, SetIntervalRequest $request, GraphHelper $graphHelper)
+    public function view($id, SetIntervalRequest $request, GraphDirector $graphHelper)
     {
         /** @var $account Account */
-        $account = AccountContainer::getAccountWithBalance($id);
+        $account = AccountContainer::getFullInfoAboutAccount($id);
         $chartData = $graphHelper->getGraphData($id, $request);
         $history = AccountsHistoryContainer::getHistory($id);
 
@@ -99,5 +99,18 @@ class AccountsController extends Controller
         AccountContainer::updateAccount($id, $request);
 
         return redirect()->route('accounts.view', ['id' => $id]);
+    }
+
+    /**
+     * Delete an account and redirect to accounts list
+     * @param $id
+     *
+     * @return mixed
+     */
+    public function delete($id)
+    {
+        AccountContainer::deleteAccount($id);
+        
+        return redirect()->route('accounts');
     }
 }

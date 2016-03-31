@@ -24,7 +24,8 @@ class SetIntervalRequest extends Request
     public function rules()
     {
         return [
-//            'daterange' => 'date|date_format:m/d/Y - m/d/Y',
+//            'income' => 'date|date_format:m/d/Y - m/d/Y',
+//            'recexp' => 'date|date_format:m/d/Y - m/d/Y',
         ];
     }
 }
